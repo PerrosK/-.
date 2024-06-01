@@ -1,0 +1,161 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[greek]{babel}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{hyperref}
+
+\begin{document}
+
+\title{Επεξεργασία Δεδομένων και Αλγόριθμοι Μηχανικής Μάθησης σε \textlatin{Python} με \textlatin{Streamlit}}
+
+\author{Κωνσταντίνος Νικόλαος Πέρρος  AM: \textlatin{inf}2021183\\
+    Ευάγγελος Τσόγκας  AM: \textlatin{inf}2021240}
+
+\maketitle
+
+
+\section{Εισαγωγή}
+Η επεξεργασία δεδομένων και η εφαρμογή αλγορίθμων μηχανικής μάθησης είναι κρίσιμες διαδικασίες στη σύγχρονη επιστήμη δεδομένων.Σε αυτό το έγγραφο, παρουσιάζουμε την υλοποίηση ενός εργαλείου επεξεργασίας δεδομένων και αλγορίθμων μηχανικής μάθησης σε γλώσσα προγραμματισμού  \textlatin{Python}, χρησιμοποιώντας το \textlatin{Streamlit} για διαδραστική διεπαφή χρήστη. Το εργαλείο επιτρέπει τη φόρτωση (κατά προτίμηση, αριθμιτικών)δεδομένων από αρχείο \textlatin{CSV}, την προεπεξεργασία των δεδομένων, τη μείωση των διαστάσεων, την εφαρμογή αλγορίθμων κατηγοριοποίησης και ομαδοποίησης, και την αξιολόγηση των αποτελεσμάτων. Η προεπεξεργασία περιλαμβάνει την κλιμάκωση των αριθμητικών χαρακτηριστικών και την κωδικοποίηση των κατηγορικών χαρακτηριστικών. Η μείωση των διαστάσεων επιτυγχάνεται μέσω των μεθόδων \textlatin{PCA} και \textlatin{t-SNE}. Οι αλγόριθμοι κατηγοριοποίησης που χρησιμοποιούνται είναι οι \textlatin{k-Nearest Neighbors} και \textlatin{Decision Tree}, ενώ οι αλγόριθμοι ομαδοποίησης περιλαμβάνουν τους \textlatin{k-Means} και \textlatin{Agglomerative Clustering}. Η διεπαφή χρήστη επιτρέπει την εύκολη αλληλεπίδραση με το εργαλείο, προσφέροντας επιλογές για την εκτέλεση κάθε μεθόδου και την προβολή των αποτελεσμάτων μέσω γραφημάτων και μετρικών αξιολόγησης όπως οι δείκτες \textlatin{Silhouette}, \textlatin{Davies-Bouldin} και \textlatin{Calinski-Harabasz}. 
+\paragraph{\textlatin{Github Link:}}\textlatin{\URL{https://github.com/PerrosK/Texnologia-Log}   } 
+
+
+\newpage\section{Κώδικας}
+\subsection{Φόρτωση και Προεπεξεργασία Δεδομένων}
+Ο κώδικας ξεκινά με τη φόρτωση των δεδομένων από ένα αρχείο \textlatin{CSV}. Η συνάρτηση \textlatin{load data} χρησιμοποιεί τη βιβλιοθήκη \textlatin{pandas} για να διαβάσει ένα αρχείο \textlatin{CSV} και να επιστρέψει ένα \textlatin{DataFrame}. Στη συνέχεια, χρησιμοποιεί τη μέθοδο \textlatin{fillna} για να γεμίσει όλες τις κενές τιμές του \textlatin{DataFrame} με την τιμή 0. Αυτό γίνεται για να εlimαρωθούν οποιεσδήποτε προβλήματα που μπορεί να προκληθούν από την παρουσία κενών τιμών κατά την επεξεργασία των δεδομένων. Στη συνέχεια, η συνάρτηση \textlatin{preprocess data} προετοιμάζει τα δεδομένα, εφαρμόζοντας κλιμάκωση (\textlatin{scaling}) στα αριθμητικά χαρακτηριστικά και κωδικοποίηση (\textlatin{encoding}) στα κατηγορικά χαρακτηριστικά. 
+\\[0.8cm]
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=1\textwidth]{images/image1.png}
+   \caption{Upload Data Function}
+   \label{fig:example}
+\end{figure}
+
+
+\newpage\subsection{Μείωση Διαστάσεων}
+Η συνάρτηση \textlatin{perform dimensionality reduction} χρησιμοποιεί την κλάση \textlatin{PCA} ή \textlatin{t-SNE} για να μειώσει την διάσταση των δεδομένων και επιστρεέφει το νεό μειωμένο σύνολο δεδομένων. Στη συνέχεια, εμφανίζει ενα διάγραμμα με την νέα διάσταση των δεδομένων και επίσης ένα \textlatin{heatmap} των \textlatin{umerical} ροών δεδομένων,η συνάρτηση \textlatin{plot dimensionality reduction} εμφανίζει διάγραμμα μειωμένων δεδομένων με βάση την μεθοδολογία που δόθηκε και η συνάρτηση \textlatin{plot heatmap} εμφανίζει \textlatin{heatmap} των συσχετίσεων μεταξύ των αριθμητικών χαρακτηριστικών των δεδομένων. Στην παρακώτω φωτογραφία βλέπουμε τον κώδικα που υλοποιεί αυτές τις λειτουργίες: 
+\\[0.8cm]
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.8\textwidth]{images/image2.png}
+   \caption{\textlatin{Upload Data Function}}
+   \label{fig:example}
+\end{figure}
+\newpage\subsection{Κατηγοριοποίηση}
+Η συνάρτηση \textlatin{classification algorithms} εκτελεί δύο αλγορίθμους κατηγοριοποίησης (\textlatin{k-NN} και \textlatin{Decision Tree}) και αξιολογεί την απόδοσή τους. Περιλαμβάνει την εκπαίδευση των μοντέλων, την πρόβλεψη και την αξιολόγηση της ακρίβειας, καθώς και την απεικόνιση του πίνακα σύγχυσης. 
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.8\textwidth]{images/image3.png}
+   \caption{\textlatin{Classifier Code}}
+   \label{fig:example}
+\end{figure}
+
+\newpage\subsection{Ομαδοποίηση}
+Η συνάρτηση \textlatin{clustering\_algorithms} εκτελεί δύο αλγορίθμους ομαδοποίησης (\textlatin{k-Means} και \textlatin{Agglomerative Clustering}) και αξιολογεί την απόδοσή τους με διάφορους δείκτες όπως οι \textlatin{Silhouette Score}, \textlatin{Davies-Bouldin Score}, και \textlatin{Calinski-Harabasz Score}. Η οπτικοποίηση των αποτελεσμάτων της ομαδοποίησης γίνεται μέσω της συνάρτησης \textlatin{plot\_clusters}.
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=1\textwidth]{images/image4.png}
+   \caption{\textlatin{Clustering Code}}
+   \label{fig:example}
+\end{figure}
+
+\newpage\subsection{Διεπαφή Χρήστη}
+Η διεπαφή χρήστη δημιουργείται χρησιμοποιώντας το \textlatin{Streamlit} και επιτρέπει τη φόρτωση αρχείων, την επιλογή μεθόδων και την εκτέλεση των αλγορίθμων. Η διεπαφή χωρίζεται σε τρεις καρτέλες: \textlatin{2D Visualization}, \textlatin{Classifying Algorithm}, και \textlatin{Clustering Algorithms}, επιτρέποντας στον χρήστη να αλληλεπιδρά εύκολα με το εργαλείο και να βλέπει τα αποτελέσματα σε πραγματικό χρόνο.
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=1\textwidth]{images/image5.png}
+   \caption{\textlatin{Interface}}
+   \label{fig:example}
+\end{figure}
+
+\newpage\section{Αποτελέσματα}
+Η παροχή των αποτελεσμάτων μας θα παρουσιαστεί με εικόνες παρακάτω:
+Στις δύο πρώτες εικόνες, βλέπουμε τα διαγράμματα των δύο μεθόδων \textlatin{t-SNE} και \textlatin{PCA}.
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.9\textwidth]{images/image6.png}
+   \caption{\textlatin{t-SNE}}
+   \label{fig:example}
+\end{figure}
+
+\newpage\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.6\textwidth]{images/image7.png}
+   \caption{\textlatin{Heatmap}}
+   \label{fig:example}
+\end{figure}
+\newpage
+Παρακάτω παρατηρούμε ότι οι \textlatin{Classification Algorithms} έχουν βγάλει \textlatin{k-NN Accuracy}: 0.8102564102564103, \textlatin{Decision Tree Accuracy}: -.46495726495726497 και έπειτα βλεπούμε το \textlatin{k-NN Confusion Matrix}.
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.8\textwidth]{images/image8.png}
+   \caption{\textlatin{K-NN Confusion Matrix}}
+   \label{fig:example}
+\end{figure}
+
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.9\textwidth]{images/image9.png}
+   \caption{\textlatin{Decision Tree Confusion Matrix}}
+   \label{fig:example}
+\end{figure}
+\newpage
+Στην τελευταία εικόνα βλέπουμε τα αποτελέσματα των \textlatin{Clustering Algorithms}: \textlatin{k-Means Silhouette Score 0.11531477802649891}, \textlatin{Agglomerative Clustering Silhouette Score:} 0.081363363929055575, \textlatin{k-Means Davies-Bouldin Score}: 2.5840070205116037, \textlatin{Agglomerative Clustering Davies-Bouldin Score}: 3.1174844526692067, \textlatin{k-Means Calinski-Harabasz Score}: 247.751195944335828 και \textlatin{Agglomerative Clustering Calinski-Harabasz Score}: 221.84780948630353.
+\newpage\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.9\textwidth]{images/image10.png}
+   \caption{\textlatin{Clustering}}
+   \label{fig:example}
+\end{figure}
+
+\newpage\section{\textlatin{UML} Διάγραμμα}
+Το \textlatin{UML}διάγραμμα που επιλέξαμε να υλοποιήσουμε είναι αυτό τησ μελέτης περίπτωσης(\textlatin{Use Case diagram}.
+\begin{figure}[h]
+   \centering
+   \includegraphics[width=0.6\textwidth]{images/ActDiagr.jpg}
+   \caption{\textlatin{Use Case diagram}}
+   \label{fig:example}
+\end{figure}
+Στο διάγραμμα αυτό απεικονίζεται η επαφή του χρήστη με το λογισμικό.Πιο αναλυτικά, βλέπουμε πως ο χρήστης έχει την δυνατότητα να μεταφορτώνει αρχεία \textlatin{CSV}, να επιλέγει τον αλγόριθμο οπτικοποίησης της επιλογής του (\textlatin{PCA} ή \textlatin{t-SNE}), να επιλέγει τον αλγόριθμο Κατηγοριοποίησης (\textlatin{knn(nearest neighbour)}και\textlatin{Decision Tree} και να επιλέγει τον αριθμό τον \textlatin{Clussters}. Επίσης, η διαδικασία επιλογής αλγορίθμου κατηγοριοποίησης έχει ως επέκταση την επιλογή του αριθμού των γειτόνων αλλά και των δένδρων για κάθε ένα από τους αλγορίθμους.
+
+\newpage\section{Ρόλος Συμμετεχόντων}
+Το μεγαλύτερο μέρος της εργασίας είχε ομαδικό χαρακτήρα, δηλαδή και οι δύο συμμετέχοντες εμπλάκικαν στους περισσότερους τομείς της εργασίας. Συγκεκριμένα ο Κωνσταντίνος Πέρρος ασχολήθηκε με όλες τις ενότητες εκτός της 10ης και ο Ευάγγελος Τσόγκας σε 'ολες εκτος της 9ης. Η Δουλειά ήταν κατανεμημένη ισάξια και στα δυο μέλη.
+
+\section{Κύκλος Ζωής Λογισμικού}
+1. Συλλογή Απαιτήσεων και Σχεδιασμός (\textlatin{Requirements Gathering and Planning})
+Στο αρχικό στάδιο, γίνεται συγκέντρωση απαιτήσεων από τους ενδιαφερόμενους (\textlatin{stakeholders}). Αυτές οι απαιτήσεις περιλαμβάνουν τις λειτουργίες και τα χαρακτηριστικά που θα πρέπει να έχει το λογισμικό για να καλύψει τις ανάγκες των χρηστών.
+
+Προτεραιοποίηση Απαιτήσεων: Προτεραιοποίηση των χαρακτηριστικών που είναι πιο σημαντικά για τους χρήστες.
+Σχεδιασμός \textlatin{Sprint}: Κατανομή των απαιτήσεων σε \textlatin{sprints} (μικρές χρονικές περίοδοι ανάπτυξης, συνήθως 2-4 εβδομάδες).
+
+2. Ανάπτυξη και Δοκιμές (\textlatin{Development and Testing})
+Κατά τη διάρκεια κάθε \textlatin{sprint}, η ομάδα ανάπτυξης εργάζεται πάνω στις προτεραιοποιημένες απαιτήσεις. Το \textlatin{Agile} επιτρέπει συνεχείς βελτιώσεις και προσαρμογές κατά τη διάρκεια της ανάπτυξης.
+
+Ανάπτυξη Κώδικα: Ο κώδικας αναπτύσσεται σε μικρές, διαχειρίσιμες ενότητες.
+Συνεχής Ολοκλήρωση (\textlatin{Continuous Integration}): Ο νέος κώδικας ενοποιείται συνεχώς με τον υπάρχοντα, εξασφαλίζοντας ότι λειτουργεί σωστά.
+Δοκιμές (\textlatin{Testing}): Κάθε νέα λειτουργία δοκιμάζεται λεπτομερώς για να διασφαλιστεί ότι πληροί τις απαιτήσεις και λειτουργεί όπως αναμένεται.
+
+3. Ανατροφοδότηση και Αναθεώρηση (\textlatin{Feedback and Review})
+Σε κάθε τέλος \textlatin{sprint}, πραγματοποιείται μια ανασκόπηση (\textlatin{sprint review}) όπου η ομάδα παρουσιάζει τις λειτουργίες που έχουν αναπτυχθεί στους ενδιαφερόμενους.
+
+Συλλογή Ανατροφοδότησης: Η ανατροφοδότηση από τους χρήστες και τους ενδιαφερόμενους είναι κρίσιμη για την αναγνώριση των προβλημάτων και τη βελτίωση του προϊόντος.
+Αναθεώρηση και Προσαρμογή: Με βάση την ανατροφοδότηση, ο σχεδιασμός και οι προτεραιότητες των επόμενων \textlatin{sprints} αναθεωρούνται.
+
+4. Έκδοση και Υποστήριξη (\textlatin{Release and Support})
+Όταν η εφαρμογή είναι έτοιμη, κυκλοφορεί στην αγορά. Στο \textlatin{Agile}, η έκδοση μπορεί να γίνει σε μικρές, συχνές κυκλοφορίες, επιτρέποντας γρήγορες διορθώσεις και βελτιώσεις.
+
+Δοκιμές Κυκλοφορίας (\textlatin{Release Testing}): Εξασφάλιση ότι το προϊόν είναι σταθερό και λειτουργεί σωστά σε ευρύ κοινό.
+Υποστήριξη Μετά την Έκδοση: Παροχή υποστήριξης στους χρήστες για προβλήματα που μπορεί να αντιμετωπίσουν και διορθώσεις σφαλμάτων (\textlatin{bug fixes}).
+
+5. Συνεχής Βελτίωση (\textlatin{Continuous Improvement})
+Η ανάπτυξη δεν τελειώνει με την έκδοση. Συνεχίζεται η βελτίωση του προϊόντος μέσω της ανατροφοδότησης των χρηστών και της παρακολούθησης της απόδοσης του λογισμικού.
+
+Συνεχείς Ενημερώσεις: Παροχή συνεχών ενημερώσεων με νέες λειτουργίες και βελτιώσεις.
+Ανάλυση Απόδοσης: Παρακολούθηση της απόδοσης του λογισμικού και των αναγκών των χρηστών για την πραγματοποίηση προσαρμογών.
+
+Συμπέρασμα
+Το \textlatin{Agile} μοντέλο, προσαρμοσμένο για την διάθεση εφαρμογής σε ευρύ κοινό, επικεντρώνεται στην συνεχή ανατροφοδότηση, τη γρήγορη προσαρμογή και τη συνεχή βελτίωση. Αυτή η ευελιξία επιτρέπει στην ομάδα ανάπτυξης να ανταποκρίνεται άμεσα στις ανάγκες των χρηστών και να διασφαλίζει ότι το λογισμικό παραμένει ανταγωνιστικό και χρήσιμο.
+
+\end{document}
